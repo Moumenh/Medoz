@@ -20,10 +20,23 @@ class Card extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ _id: this.props.good._id })
         };
-        fetch('http://localhost:4000/delete/delete', requestOptions)
+        fetch('http://localhost:4000/goods/delete', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 this.props.getgood();
+            })
+    }
+
+    updategood = ()=>{
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ _id: this.props.good._id, good:this.state.good })
+        };
+        fetch('http://localhost:4000/goods/update', requestOptions)
+            .then(response => response.json())
+            .then((data) => {
+                console.log('data for update',data)
             })
     }
 
@@ -41,7 +54,6 @@ class Card extends React.Component {
                     this.state.updategood ?
                         <input type="text" name="good" placeholder="enternewgood" onChange={this.handelChange} value={this.state.good}/>
                         :
-        
                         <div>{this.state.good}</div>
                 }
 
@@ -52,7 +64,17 @@ class Card extends React.Component {
                         <div>{this.state.price}</div>
                 }
                 <button onClick={this.handelremove} > delete</button>
-                <button onClick={()=>this.setState({updategood:!this.state.updategood})}>updateGood</button>
+                
+                <button onClick={()=>
+                    {
+                        if(this.state.updategood){
+                            this.updategood()
+                        }
+                        this.setState({updategood:!this.state.updategood})
+                    }
+                    }>updateGood</button>
+                
+
                 <button onClick={()=>this.setState({updateprice:!this.state.updateprice})}>updateprice</button>
             </div>
         )

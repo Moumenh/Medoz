@@ -25,7 +25,7 @@ module.exports = {
             })
     },
     deleteGood: (req, res) => {
-        console.log('ktodelete',req.body);
+        console.log('ktodelete', req.body);
         Good.findOneAndRemove({ "_id": req.body._id })
             .then(data => {
                 console.log(data)
@@ -36,6 +36,22 @@ module.exports = {
                 console.log(err)
                 res.status(404).json({ success: false })
             })
+    },
+    updateGoods: (req, res) => {
+        console.log('putandupdate', req.body);
+        Good.updateOne({ _id: req.body._id },{good:req.body.good})
+            .then(() => {
+                
+                res.status(201).json({ message: 'Thing updated successfully!' });
+            }).catch(err => {
+                if (err)
+                    res.status(404).json({ status: false })
+            })
     }
 }
+
+
+
+
+
 
